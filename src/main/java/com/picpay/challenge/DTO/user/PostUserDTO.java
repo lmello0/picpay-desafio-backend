@@ -1,4 +1,4 @@
-package com.picpay.challenge.domain.user.DTO;
+package com.picpay.challenge.DTO.user;
 
 import com.picpay.challenge.domain.user.Type;
 import jakarta.validation.constraints.NotBlank;

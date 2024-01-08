@@ -1,4 +1,4 @@
-package com.picpay.challenge.domain.user.security;
+package com.picpay.challenge.services;
 
 import com.picpay.challenge.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

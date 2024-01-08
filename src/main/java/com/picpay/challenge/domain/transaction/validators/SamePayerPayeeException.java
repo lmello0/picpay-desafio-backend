@@ -1,6 +1,6 @@
 package com.picpay.challenge.domain.transaction.validators;
 
-import com.picpay.challenge.domain.transaction.DTO.PostTransactionDTO;
+import com.picpay.challenge.DTO.transaction.PostTransactionDTO;
 import com.picpay.challenge.domain.transaction.exception.InvalidTransactionException;
 import org.springframework.stereotype.Component;
 

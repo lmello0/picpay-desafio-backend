@@ -1,4 +1,4 @@
-package com.picpay.challenge.domain.transaction.DTO;
+package com.picpay.challenge.DTO.transaction;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

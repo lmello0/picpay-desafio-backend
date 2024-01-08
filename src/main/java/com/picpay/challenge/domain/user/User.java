@@ -1,7 +1,7 @@
 package com.picpay.challenge.domain.user;
 
-import com.picpay.challenge.domain.user.DTO.PostUserDTO;
-import com.picpay.challenge.domain.user.DTO.UpdateUserDTO;
+import com.picpay.challenge.DTO.user.PostUserDTO;
+import com.picpay.challenge.DTO.user.UpdateUserDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

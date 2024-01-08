@@ -1,7 +1,10 @@
 package com.picpay.challenge.controller;
 
+import com.picpay.challenge.DTO.user.GetUserDTO;
+import com.picpay.challenge.DTO.user.PostUserDTO;
+import com.picpay.challenge.DTO.user.UpdateUserDTO;
+import com.picpay.challenge.DTO.user.UserReturnDTO;
 import com.picpay.challenge.domain.user.User;
-import com.picpay.challenge.domain.user.DTO.*;
 import com.picpay.challenge.domain.user.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

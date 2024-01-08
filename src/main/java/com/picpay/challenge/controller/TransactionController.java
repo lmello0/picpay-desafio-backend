@@ -1,8 +1,8 @@
 package com.picpay.challenge.controller;
 
-import com.picpay.challenge.domain.transaction.Bank;
-import com.picpay.challenge.domain.transaction.DTO.PostTransactionDTO;
-import com.picpay.challenge.domain.transaction.DTO.TransactionReturnDTO;
+import com.picpay.challenge.services.TransactionService;
+import com.picpay.challenge.DTO.transaction.PostTransactionDTO;
+import com.picpay.challenge.DTO.transaction.TransactionReturnDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 public class TransactionController {
 
     @Autowired
-    private Bank bank;
+    private TransactionService transactionService;
 
     @PostMapping
     @Transactional
     public ResponseEntity<?> makeTransaction(@RequestBody @Valid PostTransactionDTO data) {
-        TransactionReturnDTO transaction = bank.makeTransaction(data);
+        TransactionReturnDTO transaction = transactionService.makeTransaction(data);
 
         return ResponseEntity.ok(transaction);
     }
