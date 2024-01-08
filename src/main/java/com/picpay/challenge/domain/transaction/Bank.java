@@ -9,8 +9,8 @@ import com.picpay.challenge.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class Bank {
@@ -44,7 +44,8 @@ public class Bank {
                 null,
                 data.value(),
                 payer,
-                payee
+                payee,
+                LocalDateTime.now()
         );
 
         transactionRepository.save(transaction);

@@ -1,9 +1,10 @@
 package com.picpay.challenge.domain.transaction;
 
-import com.picpay.challenge.domain.transaction.DTO.PostTransactionDTO;
 import com.picpay.challenge.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Table(name = "transactions")
 @Entity(name = "Transaction")
@@ -27,4 +28,6 @@ public class Transaction {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "to_id")
     private User toId;
+
+    private LocalDateTime createdAt;
 }
