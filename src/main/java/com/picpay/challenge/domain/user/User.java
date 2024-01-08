@@ -19,18 +19,33 @@ public class User {
 
     private String firstName;
     private String lastName;
-    private String cpf;
+    private String document;
     private String email;
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Type type;
+
+    private int wallet;
     private boolean active;
 
     public User(PostUserDTO data) {
         this.firstName = data.firstName();
         this.lastName = data.lastName();
-        this.cpf = data.cpf();
+        this.document = data.document();
         this.email = data.email();
         this.password = data.password();
+        this.type = data.type();
         this.active = true;
+        this.wallet = 0;
+    }
+
+    public void deposit(int value) {
+        this.wallet += value;
+    }
+
+    public void withdraw(int value) {
+        this.wallet -= value;
     }
 
     public void updateInfo(UpdateUserDTO data) {
@@ -46,8 +61,8 @@ public class User {
             this.email = data.email();
         }
 
-        if (data.cpf() != null) {
-            this.cpf = data.cpf();
+        if (data.document() != null) {
+            this.document = data.document();
         }
     }
 

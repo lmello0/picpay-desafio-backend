@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<GetUserDTO>> findAll(@PageableDefault(sort = { "firstName" }) Pageable pagination) {
+    public ResponseEntity<?> findAll(@PageableDefault(sort = { "firstName" }) Pageable pagination) {
         Page<GetUserDTO> page = userRepository
                 .findAllByActiveTrue(pagination)
                 .map(GetUserDTO::new);

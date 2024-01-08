@@ -1,13 +1,16 @@
 package com.picpay.challenge.domain.user.DTO;
 
+import com.picpay.challenge.domain.user.Type;
 import com.picpay.challenge.domain.user.User;
 
 public record GetUserDTO(
         String id,
         String firstName,
         String lastName,
-        String cpf,
+        String document,
         String email,
+        Type type,
+        int wallet,
         boolean isActive
 ) {
     public GetUserDTO(User data) {
@@ -15,8 +18,10 @@ public record GetUserDTO(
                 data.getId(),
                 data.getFirstName(),
                 data.getLastName(),
-                data.getCpf(),
+                data.getDocument(),
                 data.getEmail(),
+                data.getType(),
+                data.getWallet(),
                 data.isActive()
         );
     }

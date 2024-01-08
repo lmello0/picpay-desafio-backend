@@ -6,14 +6,16 @@ public record UserReturnDTO(
         String id,
         String firstName,
         String lastName,
-        String cpf
+        String document,
+        int wallet
 ) {
     public UserReturnDTO(User data) {
         this(
                 data.getId(),
                 data.getFirstName(),
                 data.getLastName(),
-                data.getCpf()
+                data.getDocument(),
+                data.getWallet()
         );
     }
 }
