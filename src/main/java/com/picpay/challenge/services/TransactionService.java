@@ -1,7 +1,11 @@
-package com.picpay.challenge.domain.transaction;
+package com.picpay.challenge.services;
 
-import com.picpay.challenge.domain.transaction.DTO.PostTransactionDTO;
-import com.picpay.challenge.domain.transaction.DTO.TransactionReturnDTO;
+import com.picpay.challenge.DTO.email.GetEmailServiceDTO;
+import com.picpay.challenge.DTO.transaction.PostTransactionDTO;
+import com.picpay.challenge.DTO.transaction.TransactionReturnDTO;
+import com.picpay.challenge.DTO.transactionAuth.GetTransactionAuthDTO;
+import com.picpay.challenge.domain.transaction.Transaction;
+import com.picpay.challenge.domain.transaction.TransactionRepository;
 import com.picpay.challenge.domain.transaction.exception.InvalidTransactionException;
 import com.picpay.challenge.domain.transaction.validators.TransactionValidator;
 import com.picpay.challenge.domain.user.User;
@@ -13,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class Bank {
+public class TransactionService {
     @Autowired
     private UserRepository userRepository;
 
@@ -23,19 +27,31 @@ public class Bank {
     @Autowired
     private List<TransactionValidator> validators;
 
+    @Autowired
+    private EmailServiceClient emailServiceClient;
+
+    @Autowired
+    private TransactionAuthServiceClient transactionAuthServiceClient;
+
     public TransactionReturnDTO makeTransaction(PostTransactionDTO data) {
         User payer = userRepository.findById(data.payer()).orElse(null);
         User payee = userRepository.findById(data.payee()).orElse(null);
 
-        if (payer == null) {
+        if (isUserNull(payer)) {
             throw new InvalidTransactionException("The payer doesn't exists");
         }
 
-        if (payee == null) {
+        if (isUserNull(payee)) {
             throw new InvalidTransactionException("The payee doesn't exists");
         }
 
         validators.forEach(validator -> validator.validate(data));
+
+        GetTransactionAuthDTO transactionAuth = transactionAuthServiceClient.requestAuthorization();
+
+        if (!isAuthorized(transactionAuth.message())) {
+            throw new InvalidTransactionException("Transaction not authorized");
+        }
 
         payer.withdraw(data.value());
         payee.deposit(data.value());
@@ -50,6 +66,16 @@ public class Bank {
 
         transactionRepository.save(transaction);
 
-        return new TransactionReturnDTO(payer.getId(), payee.getId(), data.value());
+        GetEmailServiceDTO emailStatus = emailServiceClient.sendEmail();
+
+        return new TransactionReturnDTO(payer.getId(), payee.getId(), data.value(), emailStatus.message());
+    }
+
+    private boolean isUserNull(User user) {
+        return user == null;
+    }
+
+    private boolean isAuthorized(String message) {
+        return message.equals("Autorizado");
     }
 }
