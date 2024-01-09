@@ -5,7 +5,7 @@ import com.picpay.challenge.DTO.user.PostUserDTO;
 import com.picpay.challenge.DTO.user.UpdateUserDTO;
 import com.picpay.challenge.DTO.user.UserReturnDTO;
 import com.picpay.challenge.domain.user.User;
-import com.picpay.challenge.domain.user.UserRepository;
+import com.picpay.challenge.domain.user.exception.UserNotFoundException;
 import com.picpay.challenge.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +13,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -43,9 +43,13 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findOne(@PathVariable String id) {
-        User user = service.findOne(id);
+        Optional<User> user = service.findOne(id);
 
-        return ResponseEntity.ok(new GetUserDTO(user));
+        if (user.isEmpty()) {
+            throw new UserNotFoundException(id);
+        }
+
+        return ResponseEntity.ok(new GetUserDTO(user.get()));
     }
 
     @GetMapping

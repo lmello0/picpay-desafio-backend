@@ -9,11 +9,10 @@ import com.picpay.challenge.domain.user.exception.UserInactiveException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -33,8 +32,8 @@ public class UserService {
         return user;
     }
 
-    public User findOne(String id) {
-        return userRepository.getReferenceById(id);
+    public Optional<User> findOne(String id) {
+        return userRepository.findById(id);
     }
 
     public Page<GetUserDTO> findAllActive(Pageable pagination) {
