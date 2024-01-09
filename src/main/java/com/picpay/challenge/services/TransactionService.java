@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class TransactionService {
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     private TransactionRepository transactionRepository;
@@ -34,8 +34,8 @@ public class TransactionService {
     private TransactionAuthServiceClient transactionAuthServiceClient;
 
     public TransactionReturnDTO makeTransaction(PostTransactionDTO data) {
-        User payer = userRepository.findById(data.payer()).orElse(null);
-        User payee = userRepository.findById(data.payee()).orElse(null);
+        User payer = userService.findOne(data.payer()).orElse(null);
+        User payee = userService.findOne(data.payee()).orElse(null);
 
         if (isUserNull(payer)) {
             throw new InvalidTransactionException("The payer doesn't exists");
