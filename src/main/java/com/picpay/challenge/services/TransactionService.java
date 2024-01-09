@@ -9,7 +9,6 @@ import com.picpay.challenge.domain.transaction.TransactionRepository;
 import com.picpay.challenge.domain.transaction.exception.InvalidTransactionException;
 import com.picpay.challenge.domain.transaction.validators.TransactionValidator;
 import com.picpay.challenge.domain.user.User;
-import com.picpay.challenge.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,16 +33,8 @@ public class TransactionService {
     private TransactionAuthServiceClient transactionAuthServiceClient;
 
     public TransactionReturnDTO makeTransaction(PostTransactionDTO data) {
-        User payer = userService.findOne(data.payer()).orElse(null);
-        User payee = userService.findOne(data.payee()).orElse(null);
-
-        if (isUserNull(payer)) {
-            throw new InvalidTransactionException("The payer doesn't exists");
-        }
-
-        if (isUserNull(payee)) {
-            throw new InvalidTransactionException("The payee doesn't exists");
-        }
+        User payer = userService.findOne(data.payer());
+        User payee = userService.findOne(data.payee());
 
         validators.forEach(validator -> validator.validate(data));
 

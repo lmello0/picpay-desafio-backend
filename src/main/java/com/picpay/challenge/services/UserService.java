@@ -6,6 +6,7 @@ import com.picpay.challenge.DTO.user.UpdateUserDTO;
 import com.picpay.challenge.domain.user.User;
 import com.picpay.challenge.domain.user.UserRepository;
 import com.picpay.challenge.domain.user.exception.UserInactiveException;
+import com.picpay.challenge.domain.user.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,8 +33,14 @@ public class UserService {
         return user;
     }
 
-    public Optional<User> findOne(String id) {
-        return userRepository.findById(id);
+    public User findOne(String id) {
+        Optional<User> user = userRepository.findById(id);
+
+        if (user.isEmpty()) {
+            throw new UserNotFoundException(id);
+        }
+
+        return user.get();
     }
 
     public Page<GetUserDTO> findAllActive(Pageable pagination) {
