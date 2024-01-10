@@ -62,10 +62,6 @@ public class TransactionService {
         return new TransactionReturnDTO(payer.getId(), payee.getId(), data.value(), emailStatus.message());
     }
 
-    private boolean isUserNull(User user) {
-        return user == null;
-    }
-
     private boolean isAuthorized(String message) {
         return message.equals("Autorizado");
     }

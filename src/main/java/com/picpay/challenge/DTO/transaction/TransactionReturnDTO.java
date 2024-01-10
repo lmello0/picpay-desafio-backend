@@ -4,6 +4,6 @@ public record TransactionReturnDTO(
         String payer,
         String payee,
         int value,
-        String emailSent
+        boolean emailSent
 ) {
 }
